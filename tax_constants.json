@@ -1,0 +1,110 @@
+{
+    "2020" : {
+        "irs" : {
+            "amt_exemption" : 114600,
+            "amt_phaseout" : 1036800,
+            "amt_rates" : [
+                {"pc_rate": 26,
+                 "bracket_l" : 0},
+                {"pc_rate": 28,
+                 "bracket_l" : 197900}
+            ],
+            "inc_rates" = [
+                {"pc_rate": 10,
+                 "bracket_l" : 0},
+                {"pc_rate": 12,
+                 "bracket_l" : 19750},
+                {"pc_rate": 22,
+                 "bracket_l" : 80250},
+                {"pc_rate": 24,
+                 "bracket_l" : 171050},
+                {"pc_rate": 32,
+                 "bracket_l" : 326600},
+                {"pc_rate": 35,
+                 "bracket_l" : 414700},
+                {"pc_rate": 37,
+                 "bracket_l" : 622050}
+            ]
+        },
+        "cal" : {
+            "amt_rates" : [
+                {"pc_rate": 7,
+                 "bracket_l" : 0}
+            ],
+            "inc_rates" = [
+                {"pc_rate": 1,
+                 "bracket_l" : 0},
+                {"pc_rate": 2,
+                 "bracket_l" : 18650},
+                {"pc_rate": 4,
+                 "bracket_l" : 44214},
+                {"pc_rate": 6,
+                 "bracket_l" : 69784},
+                {"pc_rate": 8,
+                 "bracket_l" : 96870},
+                {"pc_rate": 9.3,
+                 "bracket_l" : 122428},
+                {"pc_rate": 10.3,
+                 "bracket_l" : 625372},
+                {"pc_rate": 11.3,
+                 "bracket_l" : 750442},
+                {"pc_rate": 12.3,
+                 "bracket_l" : 1250738}
+            ]
+        }
+    },
+    "2022" : {
+        "irs" : {
+            "amt_exemption" : 118100,
+            "amt_phaseout" : 1079800,
+            "amt_rates" : [
+                {"pc_rate": 26,
+                 "bracket_l" : 0},
+                {"pc_rate": 28,
+                 "bracket_l" : 206100}
+            ],
+            "inc_rates" = [
+                {"pc_rate": 10,
+                 "bracket_l" : 0},
+                {"pc_rate": 12,
+                 "bracket_l" : 20550},
+                {"pc_rate": 22,
+                 "bracket_l" : 83550},
+                {"pc_rate": 24,
+                 "bracket_l" : 178150},
+                {"pc_rate": 32,
+                 "bracket_l" : 340100},
+                {"pc_rate": 35,
+                 "bracket_l" : 430900},
+                {"pc_rate": 37,
+                 "bracket_l" : 647850}
+            ]
+        },
+        "cal" : {
+            "amt_rates" : [
+                {"pc_rate": 7,
+                 "bracket_l" : 0}
+            ],
+            "inc_rates" = [
+                {"pc_rate": 1,
+                 "bracket_l" : 0},
+                {"pc_rate": 2,
+                 "bracket_l" : 18650},
+                {"pc_rate": 4,
+                 "bracket_l" : 44214},
+                {"pc_rate": 6,
+                 "bracket_l" : 69784},
+                {"pc_rate": 8,
+                 "bracket_l" : 96870},
+                {"pc_rate": 9.3,
+                 "bracket_l" : 122428},
+                {"pc_rate": 10.3,
+                 "bracket_l" : 625372},
+                {"pc_rate": 11.3,
+                 "bracket_l" : 750442},
+                {"pc_rate": 12.3,
+                 "bracket_l" : 1250738}
+            ]
+        }
+    }
+}
