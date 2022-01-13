@@ -9,7 +9,7 @@
                 {"pc_rate": 28,
                  "bracket_l" : 197900}
             ],
-            "inc_rates" = [
+            "inc_rates" : [
                 {"pc_rate": 10,
                  "bracket_l" : 0},
                 {"pc_rate": 12,
@@ -31,7 +31,7 @@
                 {"pc_rate": 7,
                  "bracket_l" : 0}
             ],
-            "inc_rates" = [
+            "inc_rates" : [
                 {"pc_rate": 1,
                  "bracket_l" : 0},
                 {"pc_rate": 2,
@@ -63,7 +63,7 @@
                 {"pc_rate": 28,
                  "bracket_l" : 206100}
             ],
-            "inc_rates" = [
+            "inc_rates" : [
                 {"pc_rate": 10,
                  "bracket_l" : 0},
                 {"pc_rate": 12,
@@ -85,7 +85,7 @@
                 {"pc_rate": 7,
                  "bracket_l" : 0}
             ],
-            "inc_rates" = [
+            "inc_rates" : [
                 {"pc_rate": 1,
                  "bracket_l" : 0},
                 {"pc_rate": 2,

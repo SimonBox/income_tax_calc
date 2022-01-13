@@ -1,4 +1,5 @@
 import datetime
+import json
 
 class AMT:
     def __init__(self, year, mfj=True):
@@ -27,13 +28,13 @@ class AMT:
         amt_income -= exemption  
         
         
-        irs_amt = self._tax_from_rates(amt_income, self.amt_rates()
-        cal_amt = self._tax_from_rates(amt_income, self.cal_amt_rates()
+        irs_amt = self._tax_from_rates(amt_income, self.amt_rates)
+        cal_amt = self._tax_from_rates(amt_income, self.cal_amt_rates)
         return {"irs_amt" : irs_amt, "cal_amt" : cal_amt}
 
     def inc_tax(self, income):
-        irs_inc = self._tax_from_rates(income, self.inc_rates()
-        cal_inc = self._tax_from_rates(income, self.cal_inc_rates()
+        irs_inc = self._tax_from_rates(income, self.inc_rates)
+        cal_inc = self._tax_from_rates(income, self.cal_inc_rates)
         return {"irs_inc" : irs_inc, "cal_inc" : cal_inc}
         
 
@@ -41,7 +42,7 @@ class AMT:
         tax = 0
         for bracket in reversed(rates):
             if income > bracket['bracket_l']:
-                exess = amt_income - bracket['bracket_l']
+                exess = income - bracket['bracket_l']
                 income -= exess
                 tax += exess * (bracket['pc_rate']/100.0)
 

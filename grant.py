@@ -1,19 +1,20 @@
 from datetime import date
 
 class ExerciseTransaction:
-    def __init__(self, amount, transaction_date, price_spread):
-        self.amount = amount
+    def __init__(self, transaction_date, amount, price_spread):
         self.transaction_date = transaction_date
+        self.amount = amount
         self.price_spread = price_spread
 
 class SaleTransaction:
-    def __init__(self, amount, transaction_date, sale_price):
-        self.amount = amount
+    def __init__(self, transaction_date, amount, sale_price):
         self.transaction_date = transaction_date
+        self.amount = amount
         self.sale_price = sale_price
 
 class Grant:
-    def __init__(self, initial_shares=0, strike_price=0):
+    def __init__(self, grant_date, initial_shares, strike_price):
+        self.grant_date = grant_date
         self.initial_share_count = initial_shares
         self.strike_price = strike_price
         self.remaining_shares = self.initial_share_count
@@ -22,14 +23,14 @@ class Grant:
         self.exercise_transaction_history = []
         self.sale_transaction_history = []
 
-    def exercise(self, amount, date, share_price):
+    def exercise(self, date, amount, share_price):
         if (amount > self.unexercised_shares()):
             raise ValueError("Cannot exercise more shares than are remaining")
         self.exercised_shares += amount
         self.exercise_transaction_history.append(
-            ExerciseTransaction(amount,date, share_price-self.strike_price))
+            ExerciseTransaction(date, amount, share_price-self.strike_price))
     
-    def sell(self, amount, date, share_price):
+    def sell(self, date, amount, share_price):
         if (amount > self.remaining_shares):
             raise ValueError("Cannot sell more shares than are remaining")
         if (amount > self.sellable_amount()):
@@ -37,7 +38,7 @@ class Grant:
             "Cannot sell unexercised shares please exercise first")
         self.remaining_shares -= amount
         self.sale_transaction_history.append(
-            SaleTransaction(amount,date,share_price))
+            SaleTransaction(date, amount, share_price))
 
     def sold_shares(self):
         return self.initial_share_count - self.remaining_shares
