@@ -80,7 +80,7 @@ class Grant:
                 amount += sale.amount
         return amount 
     
-    def amt_income(self, year):
+    def exercise_income(self, year):
         ex_income = 0
         ex_amount = 0
         for ex in self.exercise_transaction_history:

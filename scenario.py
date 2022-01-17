@@ -1,5 +1,5 @@
 from grant import Grant
-from amt import AMT
+from tax import Tax
 
 import json
 import datetime
@@ -43,25 +43,59 @@ class Scenario:
         self.other_income = scenario_data["other_income"]
 
     def calculate_tax(self, year):
-        total_amt_income = 0
+        tax_data = {
+            "irs": {
+                "income": 0,
+                "amt": 0,
+                "amt_tot": 0,
+                "ltcg": 0},
+            "cal": {
+                "income": 0,
+                "amt": 0,
+                "amt_tot": 0,
+                "ltcg": 0},
+            "tax" : 0,
+            "me": {
+                "held": 0,
+                "outstanding": 0
+            }
+        }
+        total_exercise_income = 0
         total_sale_income = 0
         other_income = self.other_income[str(year)]
-        detail = {}
         for name,grant in self.grants.items():
             detail[name] = {}
-            amt_income = grant.amt_income(year)
-            total_amt_income += amt_income
-            detail[name]["amt_income"] = amt_income
+            exercise_income = grant.exercise_income(year)
+            total_exercise_income += exercise_income
             sale_income = grant.sale_income(year)
             total_sale_income += sale_income
-            detail[name]["sale_income"] = sale_income
-        tax = AMT(year)
-        amt_tax = tax.amt_tax(
-            total_amt_income, 
-            (total_sale_income + other_income))
-        inc_tax = tax.inc_tax(total_sale_income+other_income)
         
-        print("AMT tax: {}".format(amt_tax))
-        print("ordinary tax: {}".format(inc_tax))
+        tax = Tax(year)
         
-                
+        tax_data["irs"]["amt_tot"] = tax.amt_tax(
+           total_exercise_income,
+           total_sale_income + other_income) 
+        tax_data["irs"]["income"] = tax.inc_tax(
+           total_sale_income + other_income) 
+        tax_data["irs"]["amt"] = max(
+            0, 
+            tax_data["irs"]["amt_tot"] - tax_data["irs"]["income"])
+        
+        tax_data["cal"]["amt_tot"] = tax.cal_amt_tax(
+           total_exercise_income,
+           total_sale_income + other_income) 
+        tax_data["cal"]["income"] = tax.cal_inc_tax(
+           total_sale_income + other_income) 
+        tax_data["cal"]["amt"] = max(
+            0, 
+            tax_data["irs"]["amt_tot"] - tax_data["irs"]["income"])
+
+        tax_data["tax"] = (
+            tax_data["irs"]["amt"] +
+            tax_data["irs"]["income"] +    
+            tax_data["cal"]["amt"] +
+            tax_data["cal"]["income"])
+
+        tax_data["me"]["held"] = total_sale_income - tax_data["tax"]
+
+        return tax_data

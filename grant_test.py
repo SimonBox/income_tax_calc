@@ -51,8 +51,8 @@ class TestGrant(unittest.TestCase):
             exercise_transaction, 
             YEAR + 1))
         INCOME = exercise_transaction.price_spread * T1_AMOUNT
-        self.assertEqual(self.iso_grant_1.amt_income(YEAR), INCOME)
-        self.assertEqual(self.iso_grant_1.amt_income(YEAR + 1), 0)
+        self.assertEqual(self.iso_grant_1.exercise_income(YEAR), INCOME)
+        self.assertEqual(self.iso_grant_1.exercise_income(YEAR + 1), 0)
 
 
     def test_sale_transaction(self):
