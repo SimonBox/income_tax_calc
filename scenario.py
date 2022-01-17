@@ -5,6 +5,8 @@ import json
 import datetime
 
 TAX_SUMMARY = """
+TAX YEAR                            | {year}
+------------------------------------
 IRS
     Ordinary income tax             | {irs_inc}
     AMT                             | {irs_amt}
@@ -126,6 +128,7 @@ class Scenario:
     def display_tax_data(self, year):
         tax_data = self.calculate_tax(year)
         tax_str = TAX_SUMMARY.format(
+            year = year,
             irs_inc = tax_data["irs"]["income"],
             irs_amt = tax_data["irs"]["amt"],
             irs_ltcg = tax_data["irs"]["ltcg"],
