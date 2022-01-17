@@ -38,7 +38,7 @@ class Grant:
             raise ValueError(
             "Cannot sell unexercised shares please exercise first")
         self.remaining_shares -= amount
-        long_term_amount = min(amount, self.long_term_eligible_amount())
+        long_term_amount = min(amount, self.long_term_eligible_amount(date))
         self.sale_transaction_history.append(
             SaleTransaction(
                 date, 
@@ -58,11 +58,12 @@ class Grant:
     def long_term_eligible_amount(self, date):
         lt_amount = 0
         for ex in self.exercise_transaction_history:
-            if (date - ex.transaction_date) > datetime.timedelta.days(365):        
+            if (date - ex.transaction_date) > datetime.timedelta(days=365):        
                 lt_amount += ex.amount
             else:
-                break   
-        lt_amount -= self.amount_sold()
+                break
+        # TODO this is a worst-case should calculate properly
+        lt_amount -= self.sold_shares()
         return max(0, lt_amount)
 
     def sale_income(self, year):
