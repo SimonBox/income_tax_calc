@@ -1,5 +1,6 @@
 import datetime
 import json
+import copy
 
 class AMT:
     def __init__(self, year, mfj=True):
@@ -15,6 +16,7 @@ class AMT:
         self.amt_phaseout = tax_constants["irs"]["amt_phaseout"]
         self.amt_rates = tax_constants["irs"]["amt_rates"]
         self.inc_rates = tax_constants["irs"]["inc_rates"]
+        self.standard_deduction = tax_constants["irs"]["standard_deduction"]
 
         self.cal_amt_rates = tax_constants["cal"]["amt_rates"]
         self.cal_inc_rates = tax_constants["cal"]["inc_rates"]
@@ -33,9 +35,15 @@ class AMT:
         return {"irs_amt" : irs_amt, "cal_amt" : cal_amt}
 
     def inc_tax(self, income):
+        income = max(0, income - self.standard_deduction)
         irs_inc = self._tax_from_rates(income, self.inc_rates)
         cal_inc = self._tax_from_rates(income, self.cal_inc_rates)
         return {"irs_inc" : irs_inc, "cal_inc" : cal_inc}
+
+    def ltcg_tax(self, lt_income, other_income):
+        #TODO
+        pass
+
         
 
     def _tax_from_rates(self, income, rates):
@@ -47,4 +55,10 @@ class AMT:
                 tax += exess * (bracket['pc_rate']/100.0)
 
         return tax
+
+    def _offset_rates(self, rates, offset):
+        offset_rates = copy.copy(rates)
+        for rate in offset_rates:
+            rate["bracket_l"] -= offset
+        return offset_rates
 

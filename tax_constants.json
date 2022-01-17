@@ -24,7 +24,16 @@
                  "bracket_l" : 414700},
                 {"pc_rate": 37,
                  "bracket_l" : 622050}
-            ]
+            ],
+            "ltcg_rates" : [
+                {"pc_rate": 0,
+                 "bracket_l" : 0},
+                {"pc_rate": 15,
+                 "bracket_l" : 80800},
+                {"pc_rate": 20,
+                 "bracket_l" : 501600}
+            ],
+            "standard_deduction": 24800
         },
         "cal" : {
             "amt_rates" : [
@@ -50,6 +59,28 @@
                  "bracket_l" : 750442},
                 {"pc_rate": 12.3,
                  "bracket_l" : 1250738}
+            ],
+            "ltcg_rates" : [
+                {"pc_rate": 1,
+                 "bracket_l" : 0},
+                {"pc_rate": 2,
+                 "bracket_l" : 17618},
+                {"pc_rate": 4,
+                 "bracket_l" : 41776},
+                {"pc_rate": 6,
+                 "bracket_l" : 65920},
+                {"pc_rate": 8,
+                 "bracket_l" : 91506},
+                {"pc_rate": 9.3,
+                 "bracket_l" : 115648},
+                {"pc_rate": 10.3,
+                 "bracket_l" : 590746},
+                {"pc_rate": 11.3,
+                 "bracket_l" : 708890},
+                {"pc_rate": 12.3,
+                 "bracket_l" : 1181484},
+                {"pc_rate": 13.3,
+                 "bracket_l" : 2000000}
             ]
         }
     },
@@ -78,7 +109,16 @@
                  "bracket_l" : 430900},
                 {"pc_rate": 37,
                  "bracket_l" : 647850}
-            ]
+            ],
+            "ltcg_rates" : [
+                {"pc_rate": 0,
+                 "bracket_l" : 0},
+                {"pc_rate": 15,
+                 "bracket_l" : 80800},
+                {"pc_rate": 20,
+                 "bracket_l" : 501600}
+            ],
+            "standard_deduction": 24800
         },
         "cal" : {
             "amt_rates" : [
@@ -104,6 +144,28 @@
                  "bracket_l" : 750442},
                 {"pc_rate": 12.3,
                  "bracket_l" : 1250738}
+            ],
+            "ltcg_rates" : [
+                {"pc_rate": 1,
+                 "bracket_l" : 0},
+                {"pc_rate": 2,
+                 "bracket_l" : 17618},
+                {"pc_rate": 4,
+                 "bracket_l" : 41776},
+                {"pc_rate": 6,
+                 "bracket_l" : 65920},
+                {"pc_rate": 8,
+                 "bracket_l" : 91506},
+                {"pc_rate": 9.3,
+                 "bracket_l" : 115648},
+                {"pc_rate": 10.3,
+                 "bracket_l" : 590746},
+                {"pc_rate": 11.3,
+                 "bracket_l" : 708890},
+                {"pc_rate": 12.3,
+                 "bracket_l" : 1181484},
+                {"pc_rate": 13.3,
+                 "bracket_l" : 2000000}
             ]
         }
     }

@@ -10,5 +10,13 @@ class TestScenario(unittest.TestCase):
     def test_grant_load(self):
         self.assertEqual(len(self.scenario.grants), 2)
 
+    def test_tax_calc(self):
+        self.scenario.calculate_tax(2020)
+    
+    def test_tax_calc_private(self):
+        scenario_file_path = "aurora_scen_004.json"
+        scenario = Scenario(scenario_file_path)
+        scenario.calculate_tax(2022)
+
 if __name__ == "__main__":
     unittest.main()

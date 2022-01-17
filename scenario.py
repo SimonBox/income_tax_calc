@@ -38,4 +38,30 @@ class Scenario:
                     transaction["amount"],
                     transaction["share_price"])
             last_transaction_date = transaction_date
+
+        # Store other income
+        self.other_income = scenario_data["other_income"]
+
+    def calculate_tax(self, year):
+        total_amt_income = 0
+        total_sale_income = 0
+        other_income = self.other_income[str(year)]
+        detail = {}
+        for name,grant in self.grants.items():
+            detail[name] = {}
+            amt_income = grant.amt_income(year)
+            total_amt_income += amt_income
+            detail[name]["amt_income"] = amt_income
+            sale_income = grant.sale_income(year)
+            total_sale_income += sale_income
+            detail[name]["sale_income"] = sale_income
+        tax = AMT(year)
+        amt_tax = tax.amt_tax(
+            total_amt_income, 
+            (total_sale_income + other_income))
+        inc_tax = tax.inc_tax(total_sale_income+other_income)
+        
+        print("AMT tax: {}".format(amt_tax))
+        print("ordinary tax: {}".format(inc_tax))
+        
                 
