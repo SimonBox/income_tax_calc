@@ -4,6 +4,26 @@ from tax import Tax
 import json
 import datetime
 
+TAX_SUMMARY = """
+IRS
+    Ordinary income tax             | {irs_inc}
+    AMT                             | {irs_amt}
+    Long term capital gains         | {irs_ltcg}
+    Total                           | {irs_tot}
+------------------------------------
+CAL
+    Ordinary income tax             | {cal_inc}
+    AMT                             | {cal_amt}
+    Long term capital gains         | {cal_ltcg}
+    Total                           | {cal_tot}
+------------------------------------
+TOTAL TAX                           | {tax_tot}
+------------------------------------
+After Tax assets.
+Net income from sales               | {me_inc}
+Unsold (untaxed) assets             | {me_stock}
+"""
+
 class Scenario:
     def __init__(self, scenario_file_path):
         # load scenario
@@ -48,12 +68,14 @@ class Scenario:
                 "income": 0,
                 "amt": 0,
                 "amt_tot": 0,
-                "ltcg": 0},
+                "ltcg": 0,
+                "total": 0},
             "cal": {
                 "income": 0,
                 "amt": 0,
                 "amt_tot": 0,
-                "ltcg": 0},
+                "ltcg": 0,
+                "total": 0},
             "tax" : 0,
             "me": {
                 "held": 0,
@@ -64,11 +86,8 @@ class Scenario:
         total_sale_income = 0
         other_income = self.other_income[str(year)]
         for name,grant in self.grants.items():
-            detail[name] = {}
-            exercise_income = grant.exercise_income(year)
-            total_exercise_income += exercise_income
-            sale_income = grant.sale_income(year)
-            total_sale_income += sale_income
+            total_exercise_income += grant.exercise_income(year)
+            total_sale_income += grant.sale_income(year)
         
         tax = Tax(year)
         
@@ -80,6 +99,9 @@ class Scenario:
         tax_data["irs"]["amt"] = max(
             0, 
             tax_data["irs"]["amt_tot"] - tax_data["irs"]["income"])
+        tax_data["irs"]["total"] = (
+            tax_data["irs"]["amt"] + 
+            tax_data["irs"]["income"]) 
         
         tax_data["cal"]["amt_tot"] = tax.cal_amt_tax(
            total_exercise_income,
@@ -89,13 +111,32 @@ class Scenario:
         tax_data["cal"]["amt"] = max(
             0, 
             tax_data["irs"]["amt_tot"] - tax_data["irs"]["income"])
+        tax_data["cal"]["total"] = (
+            tax_data["cal"]["amt"] + 
+            tax_data["cal"]["income"]) 
 
         tax_data["tax"] = (
-            tax_data["irs"]["amt"] +
-            tax_data["irs"]["income"] +    
-            tax_data["cal"]["amt"] +
-            tax_data["cal"]["income"])
+            tax_data["irs"]["total"] +
+            tax_data["cal"]["total"])
 
         tax_data["me"]["held"] = total_sale_income - tax_data["tax"]
 
         return tax_data
+
+    def display_tax_data(self, year):
+        tax_data = self.calculate_tax(year)
+        tax_str = TAX_SUMMARY.format(
+            irs_inc = tax_data["irs"]["income"],
+            irs_amt = tax_data["irs"]["amt"],
+            irs_ltcg = tax_data["irs"]["ltcg"],
+            irs_tot = tax_data["irs"]["total"],
+            cal_inc = tax_data["cal"]["income"],
+            cal_amt = tax_data["cal"]["amt"],
+            cal_ltcg = tax_data["cal"]["ltcg"],
+            cal_tot = tax_data["cal"]["total"],
+            tax_tot = tax_data["tax"],
+            me_inc = tax_data["me"]["held"],
+            me_stock = tax_data["me"]["outstanding"])
+        print(tax_str)
+
+
