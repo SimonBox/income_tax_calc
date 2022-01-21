@@ -10,7 +10,7 @@ class SaleTransaction:
     def __init__(self, transaction_date, amount, price_spread, lt_amount):
         self.transaction_date = transaction_date
         self.amount = amount
-        self.long_term_eligible_amount = lt_amount
+        self.long_term_amount = lt_amount
         self.price_spread = price_spread
 
 class Grant:
@@ -37,8 +37,8 @@ class Grant:
         if (amount > self.sellable_amount()):
             raise ValueError(
             "Cannot sell unexercised shares please exercise first")
+        long_term_amount = min(amount, self.long_term_eligible_amount(date)) 
         self.remaining_shares -= amount
-        long_term_amount = min(amount, self.long_term_eligible_amount(date))
         self.sale_transaction_history.append(
             SaleTransaction(
                 date, 
@@ -96,6 +96,24 @@ class Grant:
                 0, 
                 ex_income * ((ex_amount - amount_sold) / float(ex_amount)))
         return ex_income
+
+    def ordinary_income(self, year):
+        ordinary_income = 0
+        for sale in self.sale_transaction_history:
+            if self._transaction_in_year(sale, year):
+                ordinary_income += (
+                    sale.amount 
+                    - sale.long_term_amount) * sale.price_spread
+
+        return ordinary_income
+
+    def ltcg_income(self, year):
+        ltcg_income = 0
+        for sale in self.sale_transaction_history:
+            if self._transaction_in_year(sale, year):
+                ltcg_income += sale.long_term_amount * sale.price_spread
+
+        return ltcg_income
 
 
     def _transaction_in_year(self, transaction, year):

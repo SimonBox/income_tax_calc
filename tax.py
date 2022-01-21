@@ -22,7 +22,7 @@ class Tax:
         self.cal_amt_rates = tax_constants["cal"]["amt_rates"]
         self.cal_inc_rates = tax_constants["cal"]["inc_rates"]
         self.cal_ltcg_rates = tax_constants["cal"]["ltcg_rates"]
-
+        self.cal_standard_deduction = tax_constants["cal"]["standard_deduction"]
 
     def amt_tax(self, exercise_income, income):
         amt_income = self._amt_income(exercise_income, income) 
@@ -45,8 +45,8 @@ class Tax:
         return self._tax_from_rates(income, self.inc_rates)
     
     def cal_inc_tax(self, income):
-        income = max(0, income - self.standard_deduction)
-        return self._tax_from_rates(income, self.cal_inc_rates)
+        income = max(0, income - self.cal_standard_deduction)
+        return self._tax_from_rates(income, self.cal_inc_rates) - 1014
 
     def ltcg_tax(self, lt_income, other_income):
         rates = self._offset_rates(self.ltcg_rates, other_income)

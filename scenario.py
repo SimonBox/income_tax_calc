@@ -86,37 +86,55 @@ class Scenario:
         }
         total_exercise_income = 0
         total_sale_income = 0
+        total_ordinary_income = 0
+        total_ltcg_income = 0
         other_income = self.other_income[str(year)]
         for name,grant in self.grants.items():
             total_exercise_income += grant.exercise_income(year)
             total_sale_income += grant.sale_income(year)
+            total_ordinary_income += grant.ordinary_income(year)
+            total_ltcg_income += grant.ltcg_income(year)
         
-        tax = Tax(year)
+        import pdb
+        pdb.set_trace()
+        #TODO hack  
+        tax = Tax(2020)#Tax(year)
         
         tax_data["irs"]["amt_tot"] = tax.amt_tax(
            total_exercise_income,
            total_sale_income + other_income) 
         tax_data["irs"]["income"] = tax.inc_tax(
-           total_sale_income + other_income) 
+           total_ordinary_income + other_income) 
+        tax_data["irs"]["ltcg"] = tax.ltcg_tax(
+            total_ltcg_income,
+            total_ordinary_income + other_income)
         tax_data["irs"]["amt"] = max(
             0, 
-            tax_data["irs"]["amt_tot"] - tax_data["irs"]["income"])
+            ( tax_data["irs"]["amt_tot"]
+            - tax_data["irs"]["income"]
+            - tax_data["irs"]["ltcg"]))
         tax_data["irs"]["total"] = (
             tax_data["irs"]["amt"] + 
-            tax_data["irs"]["income"]) 
+            tax_data["irs"]["income"] +
+            tax_data["irs"]["ltcg"])
         
         tax_data["cal"]["amt_tot"] = tax.cal_amt_tax(
            total_exercise_income,
            total_sale_income + other_income) 
         tax_data["cal"]["income"] = tax.cal_inc_tax(
-           total_sale_income + other_income) 
+           total_ordinary_income + other_income) 
+        tax_data["cal"]["ltcg"] = tax.cal_ltcg_tax(
+            total_ltcg_income,
+            total_ordinary_income + other_income)
         tax_data["cal"]["amt"] = max(
             0, 
-            tax_data["irs"]["amt_tot"] - tax_data["irs"]["income"])
+            ( tax_data["cal"]["amt_tot"] 
+            - tax_data["cal"]["income"]
+            - tax_data["cal"]["ltcg"]))
         tax_data["cal"]["total"] = (
             tax_data["cal"]["amt"] + 
+            tax_data["cal"]["income"] +
             tax_data["cal"]["income"]) 
-
         tax_data["tax"] = (
             tax_data["irs"]["total"] +
             tax_data["cal"]["total"])
