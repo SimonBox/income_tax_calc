@@ -5,6 +5,8 @@ class ExerciseTransaction:
         self.transaction_date = transaction_date
         self.amount = amount
         self.price_spread = price_spread
+        self.sold = 0
+        self.income_eligible_amount = amount;
 
 class SaleTransaction:
     def __init__(self, transaction_date, amount, price_spread, lt_amount):
@@ -37,7 +39,22 @@ class Grant:
         if (amount > self.sellable_amount()):
             raise ValueError(
             "Cannot sell unexercised shares please exercise first")
-        long_term_amount = min(amount, self.long_term_eligible_amount(date)) 
+        # Assume we sell the oldest first, which is reasonable given
+        # that we only care about this for LTCG.
+        remain_to_sell = amount;
+        long_term_amount = 0
+        for ex in self.exercise_transaction_history:
+            available = ex.amount - ex.sold
+            selling = min(available, remain_to_sell)
+            ex.sold += selling
+            remain_to_sell -= selling
+            if self.long_term_eligible(date, ex):
+                long_term_amount += selling
+            if date.year == ex.date:
+                ex.income_eligible_amount -= selling
+            if not remain_to_sell:
+                break
+        
         self.remaining_shares -= amount
         self.sale_transaction_history.append(
             SaleTransaction(
@@ -55,16 +72,11 @@ class Grant:
     def sellable_amount(self):
         return self.exercised_shares - self.sold_shares()
 
-    def long_term_eligible_amount(self, date):
-        lt_amount = 0
-        for ex in self.exercise_transaction_history:
-            if (date - ex.transaction_date) > datetime.timedelta(days=365):        
-                lt_amount += ex.amount
-            else:
-                break
-        # TODO this is a worst-case should calculate properly
-        lt_amount -= self.sold_shares()
-        return max(0, lt_amount)
+    def long_term_eligible(self, date, exercise_transaction):
+        if (date - exercise_transaction.transaction_date) 
+                > datetime.timedelta(days=365):        
+            return True
+        return False
 
     def sale_income(self, year):
         income = 0
@@ -82,19 +94,10 @@ class Grant:
     
     def exercise_income(self, year):
         ex_income = 0
-        ex_amount = 0
         for ex in self.exercise_transaction_history:
             if self._transaction_in_year(ex, year):        
-                ex_amount += ex.amount
-                ex_income += ex.price_spread * ex.amount
+                ex_income += ex.price_spread * ex.income_eligible_amount
 
-        amount_sold = self.amount_sold(year)
-
-        if ex_amount and amount_sold:
-            # TODO probably not the right way
-            ex_income = max(
-                0, 
-                ex_income * ((ex_amount - amount_sold) / float(ex_amount)))
         return ex_income
 
     def ordinary_income(self, year):
