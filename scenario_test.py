@@ -14,9 +14,9 @@ class TestScenario(unittest.TestCase):
         self.scenario.calculate_tax(2020)
     
     def test_tax_calc_private(self):
-        scenario_file_path = "aurora_scen_006.json"
+        scenario_file_path = "test_scenario.json"
         scenario = Scenario(scenario_file_path)
-        scenario.display_tax_data(2022)
+        scenario.display_tax_data(2020)
 
 if __name__ == "__main__":
     unittest.main()
