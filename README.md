@@ -15,4 +15,4 @@ Scenarios include two types of event `Grant` and `Transaction`. Transactions the
 
 The field `other_income` should be used to add income from other sources (e.g. salary) for the year being calculated.
 ## Editing Tax Constants
-The file `tax_constants.json` contains the income tax bands and AMT thresholds etc for the IRC and for the state of California in 2020. These constants change from time to time and may need to be updated for subsequent years. For other states than California these constants may be added in the same way. But you with either need to alias the state as "California" or improve the source code to support multiple states.  
+The file `tax_constants.json` contains the income tax bands and AMT thresholds etc for the IRS and for the state of California in 2020. These constants change from time to time and may need to be updated for subsequent years. For other states than California these constants may be added in the same way. But you will either need to alias the state as "California" or improve the source code to support multiple states.  
