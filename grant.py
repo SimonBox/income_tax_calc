@@ -50,7 +50,7 @@ class Grant:
             remain_to_sell -= selling
             if self.long_term_eligible(date, ex):
                 long_term_amount += selling
-            if date.year == ex.date:
+            if self._transaction_in_year(ex, date.year):
                 ex.income_eligible_amount -= selling
             if not remain_to_sell:
                 break
@@ -73,8 +73,8 @@ class Grant:
         return self.exercised_shares - self.sold_shares()
 
     def long_term_eligible(self, date, exercise_transaction):
-        if (date - exercise_transaction.transaction_date) 
-                > datetime.timedelta(days=365):        
+        if ((date - exercise_transaction.transaction_date) 
+                > datetime.timedelta(days=365)):        
             return True
         return False
 

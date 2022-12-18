@@ -95,8 +95,6 @@ class Scenario:
             total_ordinary_income += grant.ordinary_income(year)
             total_ltcg_income += grant.ltcg_income(year)
         
-        import pdb
-        pdb.set_trace()
         #TODO hack  
         tax = Tax(2020)#Tax(year)
         
